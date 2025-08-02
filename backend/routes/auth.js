@@ -123,4 +123,4 @@ router.post('/verify-otp', async (req, res) => { // CHANGED to router and path f
     }
 });
 
-module.exports = router;
+export default router;
