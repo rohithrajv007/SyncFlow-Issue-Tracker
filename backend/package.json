@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "cross-env NODE_ENV=test DATABASE_URL=\"postgresql://postgres:Rohith%402003@localhost:5432/syncflow_test?schema=public\" npx prisma migrate reset --force && node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand"
-  },
+ "scripts": {
+  "dev": "nodemon index.js",
+  "start": "node index.js",
+  "test": "cross-env NODE_ENV=test..."
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
