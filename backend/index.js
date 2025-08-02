@@ -1,48 +1,46 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import http from 'http';
-import { Server } from 'socket.io';
+const express = require('express');
+const cors = require('cors');
+require('dotenv').config();
+const http = require('http'); // 1. Import http
+const { Server } = require("socket.io"); // 2. Import Server from socket.io
 
-// --- Route Imports ---
-import authRoutes from './routes/auth.js';
-import projectRoutes from './routes/projects.js';
-import issueRoutes from './routes/issues.js';
+// Route Imports
+const authRoutes = require('./routes/auth.js');
+const projectRoutes = require('./routes/projects.js');
+const issueRoutes = require('./routes/issues.js');
 
-// --- Initialization ---
-dotenv.config();
+// Initialization
 const app = express();
-const httpServer = http.createServer(app);
-const io = new Server(httpServer, {
+const httpServer = http.createServer(app); // 3. Create an HTTP server from the Express app
+const io = new Server(httpServer, { // 4. Create a Socket.IO server
   cors: {
-    origin: "*", // In production, restrict this to your frontend URL
+    origin: "*", // Allow all origins for now. In production, you'd restrict this.
     methods: ["GET", "POST"]
   }
 });
 
 const PORT = process.env.PORT || 5000;
 
-// --- Middleware ---
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Middleware to attach the `io` instance to every request object
+// Middleware to attach io to each request
 app.use((req, res, next) => {
-  req.io = io;
-  next();
+    req.io = io;
+    next();
 });
 
-// --- API Routes ---
+// Main Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/issues', issueRoutes);
 
-// A simple root route to check if the API is running
 app.get('/', (req, res) => {
-  res.send('SyncFlow API is live!');
+  res.send('SyncFlow API with Real-time Support is running!');
 });
 
-// --- Socket.IO Connection Logic ---
+// Socket.IO connection logic
 io.on('connection', (socket) => {
   console.log('✅ A user connected:', socket.id);
 
@@ -51,14 +49,7 @@ io.on('connection', (socket) => {
   });
 });
 
-// --- Conditional Server Start ---
-// This `if` block prevents the server from starting automatically during tests
-if (process.env.NODE_ENV !== 'test') {
-  httpServer.listen(PORT, () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
-  });
-}
-
-// --- Exports for Testing ---
-// We export the app and server so our Jest tests can use them
-export { app, httpServer };
+// 5. Start the server using httpServer
+httpServer.listen(PORT, () => {
+  console.log(`🚀 Server is running on port ${PORT}`);
+});

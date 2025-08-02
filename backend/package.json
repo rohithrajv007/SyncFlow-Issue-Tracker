@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
     "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "cross-env NODE_ENV=test DATABASE_URL=\"postgresql://postgres:Rohith%402003@localhost:5432/syncflow_test?schema=public\" npx prisma migrate reset --force && node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "commonjs",
   "dependencies": {
     "@prisma/client": "^6.13.0",
     "bcryptjs": "^3.0.2",

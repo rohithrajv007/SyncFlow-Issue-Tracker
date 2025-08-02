@@ -112,4 +112,4 @@ router.delete('/:issueId', async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;
